@@ -3,10 +3,10 @@
 import { utils } from "./support/utils";
 
 export class SearchResponseAdapter {
-  constructor(typesenseResponse, instantsearchRequest, configuration) {
+  constructor(typesenseResponse, instantsearchRequest, options) {
+    this.configuration = new Configuration(options);
     this.typesenseResponse = typesenseResponse;
     this.instantsearchRequest = instantsearchRequest;
-    this.configuration = configuration;
   }
 
   _adaptGroupedHits(typesenseGroupedHits) {
@@ -93,8 +93,8 @@ export class SearchResponseAdapter {
             result[attribute].push({
               value: this._adaptHighlightTag(
                 `${value[matchedIndices.indexOf(index)]}`,
-                this.instantsearchRequest.params.highlightPreTag,
-                this.instantsearchRequest.params.highlightPostTag
+                this.instantsearchRequest?.params?.highlightPreTag,
+                this.instantsearchRequest?.params?.highlightPostTag
               ),
               matchLevel: matchLevel,
               matchedWords: matchedWords[index],
@@ -111,8 +111,8 @@ export class SearchResponseAdapter {
         // Convert all values to strings
         result[attribute].value = this._adaptHighlightTag(
           `${value}`,
-          this.instantsearchRequest.params.highlightPreTag,
-          this.instantsearchRequest.params.highlightPostTag
+          this.instantsearchRequest?.params?.highlightPreTag,
+          this.instantsearchRequest?.params?.highlightPostTag
         );
       }
     });
